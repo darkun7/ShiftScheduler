@@ -2,7 +2,45 @@
 @section('title', "Halaman Utama")
 
 @section('content')
-<div class="grid grid-cols-1 md:grid-cols-2">
+<div class="container">
+    @foreach ($schedules as $month => $schedule)
+    <div class="schedule">
+        <div class="month">
+            <ul>
+                <li class="prev">&#10094;</li>
+                <li class="next">&#10095;</li>
+                <li>
+                {{ $month }}<br>
+                <span style="font-size:18px">{{ $year }}</span>
+              </li>
+            </ul>
+        </div>
+
+        <ul class="weekdays">
+            <li>Mgu</li>
+            <li>Sen</li>
+            <li>Sel</li>
+            <li>Rab</li>
+            <li>Kms</li>
+            <li>Jum</li>
+            <li>Sab</li>
+        </ul>
+        <ul class="days">
+            @foreach ($schedule as $day => $detail)
+            @if($day == 1)
+                @for ($i = 0; $i<=day_to_num($detail["day_name"])-1; $i++)
+                <li> </<li>
+                @endfor
+            @endif
+            <li>{{ $day }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endforeach
+
+</div>
+
+{{-- <div class="grid grid-cols-1 md:grid-cols-2">
     <div class="p-6">
         <div class="flex items-center">
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
@@ -54,5 +92,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endsection
