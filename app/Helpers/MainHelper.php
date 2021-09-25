@@ -89,6 +89,7 @@ if (!function_exists('generate_schedule')) {
             $day = Carbon::createFromTimestamp($dateTime);
             $d = $day->isoFormat('D');
             $m = $day->isoFormat('MMMM');
+            $shiftIdx = $shiftIdx >= 28 ? 0 : $shiftIdx;
             $data = [
                 'day_name' => $day->isoFormat('dddd'),
                 'date'=> $day->isoFormat('D MMMM YYYY'),
@@ -101,7 +102,6 @@ if (!function_exists('generate_schedule')) {
             ];
             $result[$m][$d] = $data;
             $shiftIdx +=1;
-            $shiftIdx = $shiftIdx >= 28? 0 : $shiftIdx;
             $dateTime += 24*60*60;
         }
         return $result;
@@ -155,7 +155,7 @@ if (!function_exists('next_pattern')) {
             "idx"  => 3
         ];
         if( $year <= 2020 ){
-            dd("Must be Greater than 2020");
+            dd("Year must be greater than 2020");
         }
         $leap = $first_pattern["idx"]+leap_year($year,2020);
         $diff = $year - $first_pattern["year"];

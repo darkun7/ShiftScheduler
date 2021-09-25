@@ -14,3 +14,4 @@ use App\Http\Controllers\ShiftController;
 */
 
 Route::get('/', [ ShiftController::class, "index" ])->name('index');
+Route::get('/api/find', [ ShiftController::class, "find" ])->name('find');

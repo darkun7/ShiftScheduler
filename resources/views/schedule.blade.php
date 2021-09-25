@@ -13,7 +13,53 @@
         $todayDay = date("d");
         $todayMonth = date("n");
         $todayYear = date("Y");
+        $dayShort = ["Mgu", "Sen", "Sel", "Rab", "Kam", "Jmt", "Sbt"];
     @endphp
+    @if (Request::get('all') == 1)
+    <div class="all-calendar">
+        <h2>Jadwal Tahunan</h2>
+    <table>
+
+        <thead>
+            <td>Bulan/Hari</td>
+            @for ($i = 0; $i <= 5; $i++)
+                @foreach ($dayShort as $dn)
+                    <td>{{ $dn }}</td>
+                @endforeach
+            @endfor
+        </thead>
+        <tbody>
+            @foreach ($schedules as $month => $schedule)
+                <tr>
+                    <td>{{ $month }}</td>
+                    @foreach ($schedule as $day => $detail)
+                        @if($day == 1)
+                            @for ($i = 0; $i<=day_to_num($detail["day_name"])-1; $i++)
+                            <td></td>
+                            @endfor
+                        @endif
+                        <td id="d-all-{{ $day }}">{{ $day }}</td>
+                        @php
+                        $shift =
+                        "Group A ".translate_pattern($detail["shift"]["A"])."<hr>".
+                            "Group B ".translate_pattern($detail["shift"]["B"])."<hr>".
+                            "Group C ".translate_pattern($detail["shift"]["C"])."<hr>".
+                            "Group D ".translate_pattern($detail["shift"]["D"]);
+                        @endphp
+                        <script>
+                            tippy('#d-all-{{ $day }}', {
+                            content: '{!! $shift !!}',
+                            allowHTML: true,
+                            trigger: 'click',
+                            });
+                        </script>
+                    @endforeach
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    </div>
+    @else
     <div class="calendar">
         <form action="" method="GET">
             <div class="calendar__opts">
@@ -26,7 +72,7 @@
                 </select>
 
                 <select name="year" id="calendar__year">
-                    @for($i = 2021; $i <= 2040 ; $i++)
+                    @for($i = date('Y'); $i <= date('Y')+10 ; $i++)
                     <option value="{{ $i }}" {{ $year == $i ? 'selected' : '' }}>
                         {{ $i }}
                     </option>
@@ -36,13 +82,9 @@
 
             <div class="calendar__body">
             <div class="calendar__days">
-                <div>Mgu</div>
-                <div>Sen</div>
-                <div>Sel</div>
-                <div>Rab</div>
-                <div>Kam</div>
-                <div>Jmt</div>
-                <div>Sbt</div>
+                @foreach ($dayShort as $dn)
+                    <div>{{ $dn }}</div>
+                @endforeach
             </div>
 
             <div class="calendar__dates">
@@ -76,10 +118,12 @@
             </div>
 
             <div class="calendar__buttons">
-            <button class="calendar__button calendar__button--grey">Semua Jdwl</button>
-            <button class="calendar__button calendar__button--primary">Terapkan</button>
+                <a class="calendar__button calendar__button--grey"
+                href="?all=1">Semua Jdwl</a>
+                <button class="calendar__button calendar__button--primary">Terapkan</button>
             </div>
         </form>
     </div>
+    @endif
 </div>
 @endsection
