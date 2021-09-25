@@ -163,3 +163,25 @@ if (!function_exists('next_pattern')) {
     }
 }
 
+if (!function_exists('translate_pattern')) {
+
+    function translate_pattern(string $item)
+    {
+        switch ($item){
+            case "p":
+                return "Pagi";
+                break;
+            case "s":
+                return "Siang";
+                break;
+            case "m":
+                return "Malam";
+                break;
+            case "-":
+                return "Off";
+                break;
+            default:
+                return $item;
+        }
+    }
+}

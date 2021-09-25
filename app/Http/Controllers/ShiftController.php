@@ -16,9 +16,10 @@ class ShiftController extends Controller
      */
     public function index(Request $request){
         $year = $request->query('year') ?? date('Y');
+        $month = $request->query('month') ?? date('n');
         $year = $year < 2020 ? date('Y'): $year;
         $schedules = generate_schedule($year);
-        return view('schedule', compact('schedules', 'year'));
+        return view('schedule', compact('schedules', 'year', 'month'));
     }
 
     /**
